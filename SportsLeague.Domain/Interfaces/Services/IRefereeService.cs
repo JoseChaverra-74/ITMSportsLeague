@@ -9,6 +9,5 @@ namespace SportsLeague.Domain.Interfaces.Services
         Task<Referee> CreateAsync(Referee referee);
         Task UpdateAsync(int id, Referee referee);
         Task DeleteAsync(int id);
-
     }
 }
