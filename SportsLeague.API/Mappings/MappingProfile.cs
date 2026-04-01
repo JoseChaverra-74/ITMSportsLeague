@@ -16,9 +16,7 @@ namespace SportsLeague.API.Mappings
             // Player mappings
             CreateMap<PlayerRequestDTO, Player>();
             CreateMap<Player, PlayerResponseDTO>()
-                .ForMember(
-                    dest => dest.TeamName,
-                    opt => opt.MapFrom(src => src.Team.Name));
+                .ForMember(dest => dest.TeamName, opt => opt.MapFrom(src => src.Team.Name));
 
             // Referee mappings
             CreateMap<RefereeRequestDTO, Referee>();
@@ -27,10 +25,7 @@ namespace SportsLeague.API.Mappings
             // Tournament mappings
             CreateMap<TournamentRequestDTO, Tournament>();
             CreateMap<Tournament, TournamentResponseDTO>()
-                .ForMember(
-                    dest => dest.TeamsCount,
-                    opt => opt.MapFrom(src =>
-                        src.TournamentTeams != null ? src.TournamentTeams.Count : 0));
+                .ForMember(dest => dest.TeamsCount, opt => opt.MapFrom(src => src.TournamentTeams != null ? src.TournamentTeams.Count : 0));
 
             // Sponsor mappings
             CreateMap<SponsorRequestDTO, Sponsor>();

@@ -4,7 +4,7 @@ namespace SportsLeague.Domain.Interfaces.Services
 {
     public interface ITournamentSponsorService
     {
-        Task RegisterSponsorAsync(TournamentSponsor tournamentSponsor);
+        Task<TournamentSponsor?> RegisterSponsorAsync(TournamentSponsor tournamentSponsor);
         Task<IEnumerable<TournamentSponsor>> GetBySponsorAsync(int sponsorId);
         Task UnregisterSponsorAsync(int tournamentId, int sponsorId);
     }

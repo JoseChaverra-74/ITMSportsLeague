@@ -57,8 +57,8 @@ namespace SportsLeague.API.Controllers
                 var sponsor = _mapper.Map<Sponsor>(dto);
                 var createdSponsor = await _sponsorService.CreateAsync(sponsor);
 
-                var sponsorFromDb = await _sponsorService.GetByIdAsync(createdSponsor.Id);
-                var responseDto = _mapper.Map<SponsorResponseDTO>(sponsorFromDb);
+                var sponsorWithTournament = await _sponsorService.GetByIdAsync(createdSponsor.Id);
+                var responseDto = _mapper.Map<SponsorResponseDTO>(sponsorWithTournament);
 
                 return CreatedAtAction(
                     nameof(GetById),
@@ -124,14 +124,18 @@ namespace SportsLeague.API.Controllers
         }
 
         [HttpPost("{id}/tournaments")]
-        public async Task<ActionResult> RegisterSponsor(int id, TournamentSponsorRequestDTO dto)
+        public async Task<ActionResult<TournamentSponsorResponseDTO>> RegisterSponsor(int id, TournamentSponsorRequestDTO dto)
         {
             try
             {
                 var tournamentSponsor = _mapper.Map<TournamentSponsor>(dto);
                 tournamentSponsor.SponsorId = id;
-                await _tournamentSponsorService.RegisterSponsorAsync(tournamentSponsor);
-                return NoContent();
+                var created = await _tournamentSponsorService.RegisterSponsorAsync(tournamentSponsor);
+                var responseDto = _mapper.Map<TournamentSponsorResponseDTO>(created);
+                return CreatedAtAction(
+                    nameof(GetTournamentsBySponsor),
+                    new { id = responseDto.SponsorId },
+                    responseDto);
             }
             catch (KeyNotFoundException ex)
             {

@@ -25,7 +25,7 @@ namespace SportsLeague.Domain.Services
             _logger = logger;
         }
 
-        public async Task RegisterSponsorAsync(TournamentSponsor tournamentSponsor)
+        public async Task<TournamentSponsor?> RegisterSponsorAsync(TournamentSponsor tournamentSponsor)
         {
             var tournament = await _tournamentRepository
                 .GetByIdAsync(tournamentSponsor.TournamentId);
@@ -57,7 +57,11 @@ namespace SportsLeague.Domain.Services
 
             _logger.LogInformation
                 ($"Registering sponsor with ID: {tournamentSponsor.SponsorId} in tournament with ID: {tournamentSponsor.TournamentId}");
-            await _tournamentSponsorRepository.CreateAsync(tournamentSponsor); 
+            tournamentSponsor.JoinedAt = DateTime.UtcNow;
+            await _tournamentSponsorRepository.CreateAsync(tournamentSponsor);
+            return await _tournamentSponsorRepository
+                .GetByTournamentAndSponsorAsync(tournamentSponsor.TournamentId, tournamentSponsor.SponsorId);
+
         }
 
         public async Task<IEnumerable<TournamentSponsor>> GetBySponsorAsync(int sponsorId)
