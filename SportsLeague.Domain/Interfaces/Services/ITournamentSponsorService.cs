@@ -6,6 +6,6 @@ namespace SportsLeague.Domain.Interfaces.Services
     {
         Task RegisterSponsorAsync(TournamentSponsor tournamentSponsor);
         Task<IEnumerable<TournamentSponsor>> GetBySponsorAsync(int sponsorId);
-        Task UnregisterSponsorAsync(int sponsorId, int tournamentId);
+        Task UnregisterSponsorAsync(int tournamentId, int sponsorId);
     }
 }

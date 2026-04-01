@@ -57,8 +57,8 @@ namespace SportsLeague.API.Controllers
                 var sponsor = _mapper.Map<Sponsor>(dto);
                 var createdSponsor = await _sponsorService.CreateAsync(sponsor);
 
-                var sponsorWithTeam = await _sponsorService.GetByIdAsync(createdSponsor.Id);
-                var responseDto = _mapper.Map<SponsorResponseDTO>(sponsorWithTeam);
+                var sponsorFromDb = await _sponsorService.GetByIdAsync(createdSponsor.Id);
+                var responseDto = _mapper.Map<SponsorResponseDTO>(sponsorFromDb);
 
                 return CreatedAtAction(
                     nameof(GetById),
