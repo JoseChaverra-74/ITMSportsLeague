@@ -1,10 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using SportsLeague.Domain.Entities; 
 
 namespace SportsLeague.Domain.Interfaces.Services
 {
-    internal interface ITournamentSponsorService
+    public interface ITournamentSponsorService
     {
+        Task RegisterSponsorAsync(TournamentSponsor tournamentSponsor);
+        Task<IEnumerable<TournamentSponsor>> GetBySponsorAsync(int sponsorId);
+        Task UnregisterSponsorAsync(int sponsorId, int tournamentId);
     }
 }

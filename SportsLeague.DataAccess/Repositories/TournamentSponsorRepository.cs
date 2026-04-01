@@ -11,12 +11,35 @@ namespace SportsLeague.DataAccess.Repositories
         {
         }
 
+        public async Task<IEnumerable<TournamentSponsor>> GetBySponsorIdAsync(int sponsorId)
+        {
+            return await _dbSet
+                .Where(ts => ts.SponsorId == sponsorId)
+                .Include(ts => ts.Tournament)
+                .ToListAsync();
+        }
         public async Task<IEnumerable<TournamentSponsor>> GetByTournamentIdAsync(int tournamentId)
         {
             return await _dbSet
                 .Where(ts => ts.TournamentId == tournamentId)
                 .Include(ts => ts.Sponsor)
                 .ToListAsync();
+        }
+
+        public async Task<TournamentSponsor?> GetByTournamentAndSponsorAsync(int tournamentId, int sponsorId)
+        {
+            return await _dbSet
+                .FirstOrDefaultAsync(ts => ts.TournamentId == tournamentId && ts.SponsorId == sponsorId);
+        }
+
+        public async Task DeleteByTournamentAndSponsorAsync(int tournamentId, int sponsorId)
+        {
+            var exists = await _dbSet.FirstOrDefaultAsync(ts => ts.TournamentId == tournamentId && ts.SponsorId == sponsorId);
+            if(exists != null)
+            {
+                _dbSet.Remove(exists);
+                await _context.SaveChangesAsync();
+            }
         }
     }
 }
